@@ -1,0 +1,21 @@
+param inputnum, integer, >0;
+param mutantnum, integer, >0;
+set INPUT := 1..inputnum;
+set MUTANT  := 1..mutantnum ;
+set A dimen 2;
+param a {i in MUTANT, j in INPUT};
+table data IN "CSV" "amatrix.csv": A<-[ROWX,COLX],a~VALX;
+var x {i in INPUT} >=0, binary;
+var y {i in MUTANT} >=0, <=inputnum-1, integer;
+minimize z: 0.9999*sum {i in INPUT} (  (1/(sum {r in MUTANT} (a[r,i])+1)) * x[i]) + (1-0.9999)*sum {r in MUTANT}(y[r]) ;
+s.t. const{r in MUTANT}: sum{i in INPUT: a[r,i]==1} (x[i]) >= inputnum-y[r];
+solve;
+display sum{r in MUTANT} (y[r]) ;
+printf "# of Test Cases= %d\n",  sum{i in 1..inputnum} x[i];
+
+table result{i in INPUT} OUT "CSV" "coverage.final.sol": i~ROW,x[i]~VALX,sum {r in MUTANT} (a[r,i])~PRIOX;
+table result{i in INPUT} OUT "CSV" "coverage2.final.sol": i~ROW,sum {r in MUTANT}(a[r,i])~VALX;
+data;
+param inputnum := 512;
+param mutantnum := 280;
+end;
