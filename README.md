@@ -1,2 +1,2 @@
 # test-suite-generation
-Mutation-based minimal test suite generation for Boolean specifications
+Mutation-based minimal test suite generation tool for Boolean specifications. 20 TCAS-II Boolean specs are hard coded. Mutants can be generated under several fault hypotheses. GLPK tool suite is needed externally to minimize the resulting test suites. For comparison purposes, Masking and Unique-cause MCDC test cases are also generated. The tool provides analysis of results with respect to fault coverage and average percentage of fault detection metrics.
